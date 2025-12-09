@@ -1,8 +1,24 @@
-# claude-code-safeguard
+# claude-code-rm-guard
 
 🛡️ Security hooks for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevent destructive file operations outside your working directory.
 
 Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands.
+
+## Quick Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/install.py | python3
+```
+
+The installer will:
+1. Download the hook to `~/.claude/hooks/validate-rm.py`
+2. Add the hook configuration to `~/.claude/settings.json`
+3. Optionally add ask permissions for rm/unlink/rmdir (recommended)
+
+**Uninstall:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/install.py | python3 - --uninstall
+```
 
 ## Features
 
@@ -12,7 +28,7 @@ Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands
 - **Safety-First Blocking**: Commands with unresolvable paths (variables, globs, command substitution) are blocked by default
 - **Zero Dependencies**: Pure Python 3, no external packages required
 
-## Quick Start
+## Manual Installation
 
 ### 1. Download the hook
 ```bash
