@@ -43,7 +43,7 @@ Add to your `~/.claude/settings.json`:
 }
 ```
 
-### 3. (Recommended) Add deny rules for defense in depth
+### 3. (Recommended) Add ask rules for rm and other potentially destructive commands, so Claude Code will never run rm commands without consent
 ```json
 {
   "permissions": {
