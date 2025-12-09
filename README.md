@@ -18,7 +18,7 @@ Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands
 ```bash
 mkdir -p ~/.claude/hooks
 curl -o ~/.claude/hooks/validate-rm.py \
-  https://raw.githubusercontent.com/YOUR_USERNAME/claude-code-safeguard/main/hooks/validate-rm.py
+  https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/hooks/validate-rm.py
 chmod +x ~/.claude/hooks/validate-rm.py
 ```
 
