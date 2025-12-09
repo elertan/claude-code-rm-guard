@@ -1,10 +1,18 @@
 # claude-code-rm-guard
 
-🛡️ Security hooks for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevent destructive file operations outside your working directory.
+🛡️ Security hook plugin for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevents destructive file operations outside your working directory.
 
 Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands.
 
-## Quick Install
+## Installation
+
+### Plugin Install (Recommended)
+
+```bash
+claude /plugin install github:elertan/claude-code-rm-guard
+```
+
+### One-liner Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/install.py | python3
@@ -28,59 +36,6 @@ curl -fsSL https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/i
 - **Safety-First Blocking**: Commands with unresolvable paths (variables, globs, command substitution) are blocked by default
 - **Zero Dependencies**: Pure Python 3, no external packages required
 
-## Manual Installation
-
-### 1. Download the hook
-```bash
-mkdir -p ~/.claude/hooks
-curl -o ~/.claude/hooks/validate-rm.py \
-  https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/hooks/validate-rm.py
-chmod +x ~/.claude/hooks/validate-rm.py
-```
-
-### 2. Configure Claude Code
-
-Add to your `~/.claude/settings.json`:
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/validate-rm.py"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### 3. (Recommended) Add ask rules for rm and other potentially destructive commands, so Claude Code will never run rm commands without consent
-```json
-{
-  "permissions": {
-    "ask": ["Bash(rm:*)", "Bash(unlink:*)", "Bash(rmdir:*)"]
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/validate-rm.py"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
 ## How It Works
 
 When Claude Code attempts to run a Bash command:
@@ -90,7 +45,7 @@ When Claude Code attempts to run a Bash command:
 3. **Recursive Analysis**: Each subcommand is analyzed, unwrapping `sudo`, `bash -c`, etc.
 4. **Path Resolution**: Target paths are resolved to absolute paths (handling `~`, relative paths, `..`)
 5. **Validation**: Each path is checked against the working directory
-6. **Decision**: 
+6. **Decision**:
    - Exit code `0` → Command proceeds to normal permission flow
    - Exit code `2` → Command is **blocked**, error message shown to Claude
 
@@ -147,11 +102,19 @@ Working directory: /home/user/projects/myapp
 - eval: `eval "rm -rf ~/"`
 - Runtime symlink attacks
 
-## Configuration Options
+## Manual Installation
 
-### Project-level settings
+### 1. Download the hook
+```bash
+mkdir -p ~/.claude/hooks
+curl -o ~/.claude/hooks/validate-rm.py \
+  https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/hooks/validate-rm.py
+chmod +x ~/.claude/hooks/validate-rm.py
+```
 
-For project-specific configuration, add to `.claude/settings.json` or `.claude/settings.local.json`:
+### 2. Configure Claude Code
+
+Add to your `~/.claude/settings.json`:
 ```json
 {
   "hooks": {
@@ -161,7 +124,7 @@ For project-specific configuration, add to `.claude/settings.json` or `.claude/s
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validate-rm.py"
+            "command": "python3 ~/.claude/hooks/validate-rm.py"
           }
         ]
       }
@@ -169,6 +132,19 @@ For project-specific configuration, add to `.claude/settings.json` or `.claude/s
   }
 }
 ```
+
+### 3. (Recommended) Add ask rules for rm commands
+
+Add ask permissions so Claude Code requests confirmation before running rm commands:
+```json
+{
+  "permissions": {
+    "ask": ["Bash(rm:*)", "Bash(unlink:*)", "Bash(rmdir:*)"]
+  }
+}
+```
+
+## Configuration Options
 
 ### Timeout configuration
 
@@ -253,5 +229,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [Claude Code Hooks Reference](https://docs.anthropic.com/en/docs/claude-code/hooks)
-```
-
+- [Claude Code Plugins](https://code.claude.com/docs/en/plugins)

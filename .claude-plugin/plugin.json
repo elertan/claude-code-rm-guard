@@ -1,0 +1,10 @@
+{
+  "name": "rm-guard",
+  "description": "Security hook that prevents destructive file operations (rm, unlink, rmdir, shred) outside your working directory",
+  "version": "1.0.0",
+  "author": {
+    "name": "elertan"
+  },
+  "repository": "https://github.com/elertan/claude-code-rm-guard",
+  "keywords": ["security", "hooks", "rm", "safety", "protection"]
+}
