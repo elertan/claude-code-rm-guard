@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "rm-guard",
-      "source": "../",
+      "source": "./",
       "description": "Security hook that prevents destructive file operations (rm, unlink, rmdir, shred) outside your working directory"
     }
   ]
