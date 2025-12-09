@@ -9,7 +9,8 @@ Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands
 ### Plugin Install (Recommended)
 
 ```bash
-claude /plugin install github:elertan/claude-code-rm-guard
+/plugin marketplace add elertan/claude-code-rm-guard
+/plugin install rm-guard@claude-code-rm-guard
 ```
 
 ### One-liner Install
