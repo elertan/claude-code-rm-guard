@@ -87,6 +87,9 @@ def ask_yes_no(prompt: str, default: bool = True) -> bool:
     """
     Ask user a yes/no question.
 
+    When the script is piped (curl | python3), stdin is the pipe, not the terminal.
+    We need to read from /dev/tty to get actual user input in that case.
+
     Args:
         prompt: The question to ask
         default: Default answer if user just presses Enter
@@ -95,12 +98,23 @@ def ask_yes_no(prompt: str, default: bool = True) -> bool:
         True for yes, False for no
     """
     suffix = " [Y/n] " if default else " [y/N] "
+
+    # Print the prompt to stdout (which goes to terminal even when piped)
+    print(prompt + suffix, end="", flush=True)
+
     try:
-        response = input(prompt + suffix).strip().lower()
-    except EOFError:
-        # When piped, stdin may be exhausted - use default
-        print(f"(using default: {'yes' if default else 'no'})")
-        return default
+        # Try to read from /dev/tty (the controlling terminal)
+        # This works even when stdin is a pipe
+        with open("/dev/tty", "r") as tty:
+            response = tty.readline().strip().lower()
+    except (OSError, IOError):
+        # /dev/tty not available (e.g., no controlling terminal, or Windows)
+        # Fall back to stdin
+        try:
+            response = input().strip().lower()
+        except EOFError:
+            print(f"(using default: {'yes' if default else 'no'})")
+            return default
 
     if not response:
         return default
