@@ -1,19 +1,10 @@
 # claude-code-rm-guard
 
-🛡️ Security hook plugin for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevents destructive file operations outside your working directory.
+🛡️ Security hook for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevents destructive file operations outside your working directory.
 
 Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands.
 
-## Installation
-
-### Plugin Install (Recommended)
-
-```bash
-/plugin marketplace add elertan/claude-code-rm-guard
-/plugin install rm-guard@claude-code-rm-guard
-```
-
-### One-liner Install
+## Quick Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/elertan/claude-code-rm-guard/main/install.py | python3
