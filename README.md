@@ -47,7 +47,7 @@ Add to your `~/.claude/settings.json`:
 ```json
 {
   "permissions": {
-    "deny": ["Bash(rm:*)", "Bash(unlink:*)", "Bash(rmdir:*)"]
+    "ask": ["Bash(rm:*)", "Bash(unlink:*)", "Bash(rmdir:*)"]
   },
   "hooks": {
     "PreToolUse": [
