@@ -7,5 +7,5 @@
   },
   "repository": "https://github.com/elertan/claude-code-rm-guard",
   "keywords": ["security", "hooks", "rm", "safety", "protection"],
-  "hooks": "../hooks/hooks.json"
+  "hooks": "hooks/hooks.json"
 }
