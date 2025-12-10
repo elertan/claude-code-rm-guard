@@ -1,5 +1,9 @@
 # claude-code-rm-guard
 
+**Important to note:**
+Claude Code's sandboxing feature (https://code.claude.com/docs/en/sandboxing) seems like a much better way to solve this problem, or otherwise using devcontainers.
+If that isn't what you want, then maybe this hook will help!
+
 🛡️ Security hook for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that prevents destructive file operations outside your working directory.
 
 Stop Claude from accidentally running `rm -rf ~/` or other catastrophic commands.
